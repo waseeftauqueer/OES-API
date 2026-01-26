@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OnlineExamSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminId" />
+    </Key>
+    <Property Name="AdminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Exam">
+    <Key>
+      <PropertyRef Name="ExamId" />
+    </Key>
+    <Property Name="ExamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="TechId" Type="Int32" Nullable="false" />
+    <Property Name="LevelId" Type="Int32" Nullable="false" />
+    <Property Name="Score" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="StartedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CompletedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_Exams_Levels" FromRole="Exams" ToRole="Levels" />
+    <NavigationProperty Name="Technology" Relationship="Self.FK_Exams_Technologies" FromRole="Exams" ToRole="Technologies" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Exams_Users" FromRole="Exams" ToRole="Users" />
+    <NavigationProperty Name="Results" Relationship="Self.FK_Results_Exams" FromRole="Exams" ToRole="Results" />
+  </EntityType>
+  <EntityType Name="Level">
+    <Key>
+      <PropertyRef Name="LevelId" />
+    </Key>
+    <Property Name="LevelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PassMarks" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Exams" Relationship="Self.FK_Exams_Levels" FromRole="Levels" ToRole="Exams" />
+    <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Levels" FromRole="Levels" ToRole="Questions" />
+    <NavigationProperty Name="Technologies" Relationship="Self.FK_Technologies_Levels" FromRole="Levels" ToRole="Technologies" />
+  </EntityType>
+  <EntityType Name="Option">
+    <Key>
+      <PropertyRef Name="OptionId" />
+    </Key>
+    <Property Name="OptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionId" Type="Int32" Nullable="false" />
+    <Property Name="OptionText" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Question" Relationship="Self.FK_Options_Questions" FromRole="Options" ToRole="Questions" />
+    <NavigationProperty Name="Results" Relationship="Self.FK_Results_Options" FromRole="Options" ToRole="Results" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TechId" Type="Int32" Nullable="false" />
+    <Property Name="LevelId" Type="Int32" Nullable="false" />
+    <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_Questions_Levels" FromRole="Questions" ToRole="Levels" />
+    <NavigationProperty Name="Options" Relationship="Self.FK_Options_Questions" FromRole="Questions" ToRole="Options" />
+    <NavigationProperty Name="Technology" Relationship="Self.FK_Questions_Technologies" FromRole="Questions" ToRole="Technologies" />
+    <NavigationProperty Name="Results" Relationship="Self.FK_Results_Questions" FromRole="Questions" ToRole="Results" />
+  </EntityType>
+  <EntityType Name="Result">
+    <Key>
+      <PropertyRef Name="ResultId" />
+    </Key>
+    <Property Name="ResultId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ExamId" Type="Int32" Nullable="false" />
+    <Property Name="QuestionId" Type="Int32" Nullable="false" />
+    <Property Name="SelectedOptionId" Type="Int32" Nullable="false" />
+    <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Exam" Relationship="Self.FK_Results_Exams" FromRole="Results" ToRole="Exams" />
+    <NavigationProperty Name="Option" Relationship="Self.FK_Results_Options" FromRole="Results" ToRole="Options" />
+    <NavigationProperty Name="Question" Relationship="Self.FK_Results_Questions" FromRole="Results" ToRole="Questions" />
+  </EntityType>
+  <EntityType Name="Technology">
+    <Key>
+      <PropertyRef Name="TechId" />
+    </Key>
+    <Property Name="TechId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LevelId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Exams" Relationship="Self.FK_Exams_Technologies" FromRole="Technologies" ToRole="Exams" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_Technologies_Levels" FromRole="Technologies" ToRole="Levels" />
+    <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Technologies" FromRole="Technologies" ToRole="Questions" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="Qualification" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="YearOfCompletion" Type="Int32" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Exams" Relationship="Self.FK_Exams_Users" FromRole="Users" ToRole="Exams" />
+  </EntityType>
+  <Association Name="FK_Exams_Levels">
+    <End Role="Levels" Type="Self.Level" Multiplicity="1" />
+    <End Role="Exams" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Levels">
+        <PropertyRef Name="LevelId" />
+      </Principal>
+      <Dependent Role="Exams">
+        <PropertyRef Name="LevelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Exams_Technologies">
+    <End Role="Technologies" Type="Self.Technology" Multiplicity="1" />
+    <End Role="Exams" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Technologies">
+        <PropertyRef Name="TechId" />
+      </Principal>
+      <Dependent Role="Exams">
+        <PropertyRef Name="TechId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Exams_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Exams" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Exams">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Results_Exams">
+    <End Role="Exams" Type="Self.Exam" Multiplicity="1" />
+    <End Role="Results" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Exams">
+        <PropertyRef Name="ExamId" />
+      </Principal>
+      <Dependent Role="Results">
+        <PropertyRef Name="ExamId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Questions_Levels">
+    <End Role="Levels" Type="Self.Level" Multiplicity="1" />
+    <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Levels">
+        <PropertyRef Name="LevelId" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="LevelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Technologies_Levels">
+    <End Role="Levels" Type="Self.Level" Multiplicity="1" />
+    <End Role="Technologies" Type="Self.Technology" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Levels">
+        <PropertyRef Name="LevelId" />
+      </Principal>
+      <Dependent Role="Technologies">
+        <PropertyRef Name="LevelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Options_Questions">
+    <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+    <End Role="Options" Type="Self.Option" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="Options">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Results_Options">
+    <End Role="Options" Type="Self.Option" Multiplicity="1" />
+    <End Role="Results" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Options">
+        <PropertyRef Name="OptionId" />
+      </Principal>
+      <Dependent Role="Results">
+        <PropertyRef Name="SelectedOptionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Questions_Technologies">
+    <End Role="Technologies" Type="Self.Technology" Multiplicity="1" />
+    <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Technologies">
+        <PropertyRef Name="TechId" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="TechId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Results_Questions">
+    <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+    <End Role="Results" Type="Self.Result" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="Results">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OnlineExamSystemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="Exams" EntityType="Self.Exam" />
+    <EntitySet Name="Levels" EntityType="Self.Level" />
+    <EntitySet Name="Options" EntityType="Self.Option" />
+    <EntitySet Name="Questions" EntityType="Self.Question" />
+    <EntitySet Name="Results" EntityType="Self.Result" />
+    <EntitySet Name="Technologies" EntityType="Self.Technology" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Exams_Levels" Association="Self.FK_Exams_Levels">
+      <End Role="Levels" EntitySet="Levels" />
+      <End Role="Exams" EntitySet="Exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Exams_Technologies" Association="Self.FK_Exams_Technologies">
+      <End Role="Technologies" EntitySet="Technologies" />
+      <End Role="Exams" EntitySet="Exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Exams_Users" Association="Self.FK_Exams_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Exams" EntitySet="Exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Results_Exams" Association="Self.FK_Results_Exams">
+      <End Role="Exams" EntitySet="Exams" />
+      <End Role="Results" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Questions_Levels" Association="Self.FK_Questions_Levels">
+      <End Role="Levels" EntitySet="Levels" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Technologies_Levels" Association="Self.FK_Technologies_Levels">
+      <End Role="Levels" EntitySet="Levels" />
+      <End Role="Technologies" EntitySet="Technologies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Options_Questions" Association="Self.FK_Options_Questions">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Options" EntitySet="Options" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Results_Options" Association="Self.FK_Results_Options">
+      <End Role="Options" EntitySet="Options" />
+      <End Role="Results" EntitySet="Results" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Questions_Technologies" Association="Self.FK_Questions_Technologies">
+      <End Role="Technologies" EntitySet="Technologies" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Results_Questions" Association="Self.FK_Results_Questions">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Results" EntitySet="Results" />
+    </AssociationSet>
+    <FunctionImport Name="GetExamResult">
+      <Parameter Name="ExamId" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+</Schema>
