@@ -1,5 +1,5 @@
 
-# 📝 Online Exam System – Web API (.NET MVC 4.7.2)
+# 📝 Online Exam System – Web API
 
 An **Online Exam System Web API** built using **ASP.NET MVC 4.7.2**.
 This project provides RESTful APIs to manage online examinations, including user management, question handling, exam creation, and result evaluation.
@@ -25,7 +25,6 @@ This project provides RESTful APIs to manage online examinations, including user
 * **Architecture:** RESTful Web API
 * **Database:** SQL Server
 * **ORM:** Entity Framework
-* **Authentication:** Token / Session Based (customizable)
 * **IDE:** Visual Studio
 
 ---
@@ -104,29 +103,7 @@ https://localhost:xxxxx/
 * Create Subjects
 * Add Questions
 * Create Exams
-* Assign Questions to Exams
 * View Student Results
-
----
-
-## 🧪 Sample API Endpoints
-
-| Method | Endpoint                 | Description         |
-| ------ | ------------------------ | ------------------- |
-| POST   | `/api/auth/register`     | Register new user   |
-| POST   | `/api/auth/login`        | Login user          |
-| GET    | `/api/exams`             | Get available exams |
-| POST   | `/api/exams/{id}/submit` | Submit exam answers |
-| GET    | `/api/results/{userId}`  | Get user results    |
-
----
-
-## 🔒 Security
-
-* Role-based Authorization
-* Input Validation
-* Exception Handling Middleware
-* Secure Password Hashing
 
 ---
 
@@ -149,12 +126,6 @@ Contributions are welcome!
 3. Commit changes (`git commit -m 'Add new feature'`)
 4. Push to branch (`git push origin feature/new-feature`)
 5. Open a Pull Request
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License.
 
 ---
 
