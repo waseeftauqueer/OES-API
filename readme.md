@@ -132,5 +132,5 @@ Contributions are welcome!
 ## 👨‍💻 Author
 
 Developed by **Your Name**
-📧 [your-email@example.com](mailto:waseeftauqueera@gmail.com)
-🌐 GitHub: [https://github.com/your-username](https://github.com/waseeftauqueer)
+📧 [your-waseeftauqueera@gmail.com](mailto:waseeftauqueera@gmail.com)
+🌐 GitHub: [https://github.com/waseeftauqueer](https://github.com/waseeftauqueer)
