@@ -127,10 +127,3 @@ Contributions are welcome!
 4. Push to branch (`git push origin feature/new-feature`)
 5. Open a Pull Request
 
----
-
-## 👨‍💻 Author
-
-Developed by **Your Name**
-📧 [your-waseeftauqueera@gmail.com](mailto:waseeftauqueera@gmail.com)
-🌐 GitHub: [https://github.com/waseeftauqueer](https://github.com/waseeftauqueer)
